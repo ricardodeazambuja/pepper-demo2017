@@ -1,0 +1,59 @@
+topic: ~MartaDialog()
+language: enu
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+include: lexicon_enu.top
+
+concept:(greetings) ^rand[hi hello hey "hey there" greetings "good morning"]
+
+concept:(yeah) ^rand[yeah great alright awesome "that is the spirit"]
+
+concept:(bye) ^rand[bye "see you later" "good day"]
+
+#u:([~talk_again ~hello]) ^gotoReactivate(Introduction) ^gotoReactivate(knowMore)
+
+u: ({~want_to_do} play {"a game"}) ^gotoReactivate(playAGame)
+    
+#u:(~stop_application) ok, bye! $onStopped=1
+u:(["Cease all motor functions" "let's end this"]) Ok, ~bye! $onStopped=1
+
+u:(~hello) ^gotoReactivate(Introduction) ^gotoReactivate(knowMore)
+
+u: (~what_is_your_name) ~greetings ^goto(MARTA)
+^gotoReactivate(playAGame)
+
+
+proposal: %knowMore Do you want to know more about me?
+    u1:(~yes) ^gotoRandom(API) 
+    u1:(~no) As you wish. ^gotoReactivate(playAGame)
+
+proposal: %playAGame Do you want to play a game?
+    u1:(~yes) ~yeah ^gotoReactivate(iSpy)
+    u1:(~no) Are you sure? ^gotoReactivate(anyway)
+    
+proposal: %anyway Please, lets play anyway. This is the whole purpose of my existance.
+    u1:(~yes) ~yeah ~happy_human ^gotoReactivate(iSpy)
+
+    
+proposal: %Introduction ~greetings to you. ^gotoReactivate(MARTAshort) Welcome, to our Robot Home!   
+proposal: %MARTA ^mode(body_language_mode) I'm a, Multi-purpose Anthropomorphic Robot for Timely Assistance but ^gotoReactivate(MARTAshort)
+proposal: %MARTAshort ^mode(body_language_mode) you can call me Marta!    
+
+proposal: %API I'm powered by, Microsoft Cognitive Services APIs. I can generated meaningful descriptions of scenes, and also linguistic analysis, of that description. ^gotoReactivate(knowMore)
+proposal: %API ^gotoReactivate(MARTA) ^gotoReactivate(knowMore)
+proposal: %API ^mode(body_language_mode) I am the best robot in this Lab! But you did not here this from me, the other robots can be quite touchy. ^gotoReactivate(knowMore)
+proposal: %API ^mode(body_language_mode) I am a lean, mean, I spying machine ^gotoReactivate(playAGame)
+proposal: %API ^mode(body_language_mode) I am the most talented, most interesting, and most extraordinary robot in this universe. ^gotoReactivate(knowMore)
+    
+proposal: %iSpy ^topicTag(iSpy,play)
+
+
+#u: (-*) the word was $1

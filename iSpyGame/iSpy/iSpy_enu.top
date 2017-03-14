@@ -1,0 +1,43 @@
+topic: ~iSpy ^resetOnFocus ()
+language: enu
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+concept:(wrong) ^rand[wrong incorrect erroneous bad "that is inaccurate"]
+
+concept:(embarrassingly) ^rand[really embarrassingly perplexingly bafflingly]
+
+proposal: %play ~yeah Let's play a game called ^start(animations/Stand/Gestures/IDontKnow_1), I spy with my little eye. $playISpy=1 $lastTry=0
+
+
+proposal: %again Do you want to play again? $lastTry>0
+    u1:(~yes) ~yeah Let us play then! $playISpy=1 $lastTry=0
+    u1:(~no) ^topicTag(MartaDialog,API)
+    
+proposal: %wrong ~wrong ! ^start(animations/Stand/Gestures/No_3) You are ~embarrassingly bad at this game. ^gotoReactivate(again)
+
+proposal: %right Alright! ^start(animations/Stand/Gestures/Enthusiastic_5) alright, alright. You got this one! ^wait(animations/Stand/Gestures/Enthusiastic_5)
+
+#u:(e:iSpyGame/CorrectAnswer) ^gotoReactivate(again)
+
+u:(e:iSpyGame/TimeOut) ^gotoReactivate(wrong) $onTimerOut=1
+
+u:(e:iSpyGame/TimeOutLast) $lastTry=2 ^gotoReactivate(wrong) 
+
+
+# ISPY answer
+dynamic:word
+# call it when speech recognition is running
+#proxy = ALProxy("ALDialog")
+#proxy.setConcept("word","enu", word)
+
+u: (_~word) ^gotoReactivate(right) Well done! The word was $1 $output_cancelTimers=1 $lastTry=2 ^gotoReactivate(again)
+
+
