@@ -51,9 +51,9 @@ proposal: %API I'm powered by, Microsoft Cognitive Services APIs. I can generate
 proposal: %API ^gotoReactivate(MARTA) ^gotoReactivate(knowMore)
 proposal: %API ^mode(body_language_mode) I am the best robot in this Lab! But you did not here this from me, the other robots can be quite touchy. ^gotoReactivate(knowMore)
 proposal: %API ^mode(body_language_mode) I am a lean, mean, I spying machine ^gotoReactivate(playAGame)
-proposal: %API ^mode(body_language_mode) I am the most talented, most interesting, and most extraordinary robot in this universe. ^gotoReactivate(knowMore)
+proposal: %API ^mode(body_language_mode) I am the most talented, most interesting, and most extraordinary robot in this universe.
     
-proposal: %iSpy ^topicTag(iSpy,play)
+proposal: %iSpy $playAGame=1 ^topicTag(iSpyDialog,play)
 
 
 #u: (-*) the word was $1

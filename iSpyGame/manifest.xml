@@ -1,8 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<package uuid="ispygame-marta" version="0.0.0">
+<package version="0.0.0" uuid="marta_app">
  <names>
-  <name lang="en_US">iSpyGame</name>
+  <name lang="en_US">I Spy Game</name>
  </names>
+ <descriptions>
+  <description lang="en_US">I Spy Game</description>
+ </descriptions>
  <supportedLanguages>
   <language>en_US</language>
  </supportedLanguages>
@@ -10,10 +13,22 @@
   <language>en_US</language>
  </descriptionLanguages>
  <contents>
-  <behaviorContent path="behavior_1">
+  <behaviorContent path=".">
    <userRequestable/>
-   <nature>interactive</nature>
+   <nature></nature>
+   <names>
+    <name lang="en_US">I Spy</name>
+   </names>
+   <triggerSentences>
+    <sentence lang="en_US">I Spy</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="en_US">Let's play!</sentence>
+   </loadingResponses>
    <permissions/>
   </behaviorContent>
  </contents>
+ <requirements>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
 </package>
