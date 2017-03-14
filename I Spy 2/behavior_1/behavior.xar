@@ -311,6 +311,9 @@ class MyClass(GeneratedClass):
         except Exception as e:
             self.logger.error(e)
 
+        self._vision_key = self.getParameter("MSCognitiveServicesVisionUserKey")
+        self._linguistic_key = self.getParameter("MSCognitiveServicesLinguisticUserKey")
+
     def onUnload(self):
         #put clean-up code here
         pass
@@ -318,13 +321,13 @@ class MyClass(GeneratedClass):
     def onInput_onStart(self):
         try:
             img_directory = self.frameManager.getBehaviorPath(self.behaviorId)+"/../html/"
-            resp=analise_image(img_directory+self.getParameter("Filename"))
+            resp=analise_image(img_directory+self.getParameter("Filename"), key_vision=self._vision_key)
             self.logger.warning("MSCog resp:"+str(resp))
 
             if len(resp):
                 selected_tag = check_tags(resp,min_conf=self.getParameter("Threshold"))
 
-                an = json.loads(analise_text(" ".join(selected_tag)))[0]['result'][0]
+                an = json.loads(analise_text(" ".join(selected_tag), key_ling=self._linguistic_key))[0]['result'][0]
                 selected = []
                 for i,res in enumerate(an):
                     if res[:2]=='NN':
@@ -349,6 +352,8 @@ class MyClass(GeneratedClass):
                             <Output name="tags" type="3" type_size="1" nature="2" inner="0" tooltip="" id="5" />
                             <Parameter name="Threshold" inherits_from_parent="0" content_type="2" value="0" default_value="0.5" min="0" max="1" tooltip="" id="6" />
                             <Parameter name="Filename" inherits_from_parent="0" content_type="3" value="image.jpg" default_value="image.jpg" custom_choice="0" tooltip="" id="7" />
+                            <Parameter name="MSCognitiveServicesVisionUserKey" inherits_from_parent="0" content_type="3" value="64b944fcc2e54619921d896b9db02fd9" default_value="" custom_choice="0" tooltip="Get your own key here:&#x0A;https://www.microsoft.com/cognitive-services/" id="8" />
+                            <Parameter name="MSCognitiveServicesLinguisticUserKey" inherits_from_parent="0" content_type="3" value="2eff9ce5e0424f07be62552b361ce1ae" default_value="" custom_choice="0" tooltip="" id="9" />
                         </Box>
                         <Box name="Take Picture" id="2" localization="8" tooltip="Take a picture with one of the cameras camera and store it in his memory in ~/recordings/cameras. The image format is JPG.&#x0A;&#x0A;V1.1.0&#x0A;" x="467" y="357">
                             <bitmap>media/images/box/interaction/picture.png</bitmap>
