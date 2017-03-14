@@ -10,11 +10,15 @@ language: enu
 # Replying to speech
 #u:(~hello) ~hello
 
+include: lexicon_enu.top
+
+concept:(yeah) ^rand[yeah great alright awesome "that is the spirit"]
+
 concept:(wrong) ^rand[wrong incorrect erroneous bad "that is inaccurate"]
 
 concept:(embarrassingly) ^rand[really embarrassingly perplexingly bafflingly]
 
-proposal: %play ~yeah Let's play a game called ^start(animations/Stand/Gestures/IDontKnow_1), I spy with my little eye. $playISpy=1 $lastTry=0
+proposal: %play ~yeah Let's play a game called ^start(animations/Stand/Gestures/IDontKnow_1), I spy with my little eye. $playISpy=1 $lastTry=0 ^activate(play)
 
 
 proposal: %again Do you want to play again? $lastTry>0
@@ -23,13 +27,14 @@ proposal: %again Do you want to play again? $lastTry>0
     
 proposal: %wrong ~wrong ! ^start(animations/Stand/Gestures/No_3) You are ~embarrassingly bad at this game. ^gotoReactivate(again)
 
-proposal: %right Alright! ^start(animations/Stand/Gestures/Enthusiastic_5) alright, alright. You got this one! ^wait(animations/Stand/Gestures/Enthusiastic_5)
+proposal: %right Alright! ^start(animations/Stand/Gestures/Enthusiastic_4) alright, alright. You got this one! ^wait(animations/Stand/Gestures/Enthusiastic_4)
 
 #u:(e:iSpyGame/CorrectAnswer) ^gotoReactivate(again)
 
 u:(e:iSpyGame/TimeOut) ^gotoReactivate(wrong) $onTimerOut=1
 
-u:(e:iSpyGame/TimeOutLast) $lastTry=2 ^gotoReactivate(wrong) 
+
+u:(e:iSpyGame/TimeOutLast) $lastTry=2 $output_cancelTimers=1 ^gotoReactivate(wrong) 
 
 
 # ISPY answer

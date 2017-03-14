@@ -14,7 +14,7 @@
         <Timeline enable="0">
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
-                    <Diagram>
+                    <Diagram scale="50">
                         <Box name="Show Image" id="13" localization="8" tooltip="display an image on the screen&#x0A;&#x0A;V1.0.0&#x0A;" x="1246" y="110">
                             <bitmap>media/images/box/interaction/rec_movie.png</bitmap>
                             <script language="4">
@@ -233,7 +233,7 @@ class MyClass(GeneratedClass):
                             <Output name="onTimerOut" type="1" type_size="1" nature="2" inner="0" tooltip="" id="6" />
                             <Output name="output_cancelTimers" type="1" type_size="1" nature="2" inner="0" tooltip="" id="7" />
                         </Box>
-                        <Box name="MartaDialog" id="4" localization="8" tooltip="" x="381" y="14">
+                        <Box name="MartaDialog" id="4" localization="8" tooltip="" x="437" y="12">
                             <dialogFile>../MartaDialog/MartaDialog.dlg</dialogFile>
                             <bitmap>media/images/box/box-dialog.png</bitmap>
                             <script language="4">
@@ -1860,6 +1860,57 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
+                        <Box name="Dialog Topic Activation" id="23" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="714" y="96">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        self.frameManager = None
+        try:
+            self.frameManager = ALProxy("ALFrameManager")
+        except Exception as e:
+            self.logger.error(e)
+
+        self.dialogFile = self.frameManager.getBehaviorPath(self.behaviorId)+"/../MartaDialog/MartaDialog_enu.top"
+        self.logger.warning("Dialog:"+self.dialogFile)
+
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        #self.onStopped() #activate the output of the box
+
+        self.ALDialog = ALProxy('ALDialog')
+        self.topicName = self.ALDialog.loadTopic(self.dialogFile)
+
+        self.onStopped() #activate the output of the box
+
+    def onInput_onDeactivate(self):
+        self.ALDialog.deactivateTopic(self.topicName)
+
+    def onInput_onActivate(self):
+        self.ALDialog.activateTopic(self.topicName)
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Input name="onDeactivate" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" />
+                            <Input name="onActivate" type="1" type_size="1" nature="1" inner="0" tooltip="" id="5" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="6" />
+                        </Box>
                         <Link inputowner="6" indexofinput="2" outputowner="3" indexofoutput="3" />
                         <Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="2" />
                         <Link inputowner="1" indexofinput="2" outputowner="6" indexofoutput="4" />
@@ -1867,7 +1918,6 @@ class MyClass(GeneratedClass):
                         <Link inputowner="10" indexofinput="2" outputowner="0" indexofoutput="2" />
                         <Link inputowner="14" indexofinput="2" outputowner="5" indexofoutput="3" />
                         <Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" />
-                        <Link inputowner="0" indexofinput="4" outputowner="4" indexofoutput="4" />
                         <Link inputowner="22" indexofinput="2" outputowner="18" indexofoutput="4" />
                         <Link inputowner="7" indexofinput="2" outputowner="2" indexofoutput="4" />
                         <Link inputowner="9" indexofinput="2" outputowner="8" indexofoutput="4" />
@@ -1875,8 +1925,6 @@ class MyClass(GeneratedClass):
                         <Link inputowner="13" indexofinput="4" outputowner="8" indexofoutput="4" />
                         <Link inputowner="2" indexofinput="3" outputowner="1" indexofoutput="7" />
                         <Link inputowner="18" indexofinput="3" outputowner="1" indexofoutput="7" />
-                        <Link inputowner="13" indexofinput="4" outputowner="4" indexofoutput="4" />
-                        <Link inputowner="9" indexofinput="2" outputowner="4" indexofoutput="4" />
                         <Link inputowner="15" indexofinput="4" outputowner="12" indexofoutput="5" />
                         <Link inputowner="19" indexofinput="4" outputowner="21" indexofoutput="6" />
                         <Link inputowner="21" indexofinput="2" outputowner="15" indexofoutput="6" />
@@ -1889,6 +1937,11 @@ class MyClass(GeneratedClass):
                         <Link inputowner="18" indexofinput="2" outputowner="21" indexofoutput="5" />
                         <Link inputowner="2" indexofinput="2" outputowner="17" indexofoutput="4" />
                         <Link inputowner="11" indexofinput="2" outputowner="10" indexofoutput="4" />
+                        <Link inputowner="23" indexofinput="4" outputowner="1" indexofoutput="5" />
+                        <Link inputowner="23" indexofinput="5" outputowner="1" indexofoutput="7" />
+                        <Link inputowner="23" indexofinput="2" outputowner="6" indexofoutput="4" />
+                        <Link inputowner="23" indexofinput="4" outputowner="10" indexofoutput="4" />
+                        <Link inputowner="0" indexofinput="4" outputowner="4" indexofoutput="4" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
