@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="ispy_simple">
+ <names>
+  <name lang="en_US">I Spy Game - Simple</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">I Spy Game</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">I Spy</name>
+   </names>
+   <triggerSentences>
+    <sentence lang="en_US">I Spy Game</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="en_US">Let's play!</sentence>
+   </loadingResponses>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>
